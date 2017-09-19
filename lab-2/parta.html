@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>lab2-parta</title>
+	<script type="text/javascript">
+		function check(f){
+			var username = f.username;
+			if(username.value == ""){
+				alert("Please enter sth");
+				return false;
+			}
+			return true;
+		}
+	</script>
+</head>
+<body>
+	<form name="FormA" method="post" action="partb.html" onsubmit="return check(this)">
+		<p>
+			<label>Username:</label>
+			<input type="text" name="username"/	>
+		</p>
+		
+		<p>
+			<label>Password:</label>
+			<input type="password" name="pwd"/>
+		</p>
+		
+		<input type="submit" value="submit"/>
+	</form>
+</body>
+</html>

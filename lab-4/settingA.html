@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Setting </title>
+	<script type="text/javascript">
+		function check(f){
+			if( (f.itemChosen.value == "") || (f.noGuess.value == "") )
+		}
+	</script>
+</head>
+<body>
+	<form id="myForm" action="setCookiesA.php" method="GET" onsubmit="return check(this)">
+	Choose the channel for guessing:
+		<input type="radio" name="itemChosen" value="red" /> red
+		<input type="radio" name="itemChosen" value="green" /> green
+		<input type="radio" name="itemChosen" value="blue" /> blue<br/>
+		Enter the maximum number of guess: <input type="text" name="noGuess"/><br/>
+		<input type="submit" value="submit" />
+	</form>
+
+</body>
+</html>

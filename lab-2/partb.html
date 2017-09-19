@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>lab2-partb</title>
+	<style type="text/css">
+		warning{
+			color:red;
+			font-style:italic;
+		}
+	</style>
+	<script type="text/javascript">
+		function check(){
+			//get value of each input from FormA
+			var Fname = FormA.Fname.value;
+			var Lname = FormA.Lname.value;
+			var TNo = FormA.TNo.value;
+			//get the warning and information writing position
+			var FnameField = document.getElementById("FnameField");
+			var LnameField = document.getElementById("LnameField");
+			var TNoField = document.getElementById("TNoField");
+			var show_info = document.getElementById("info");
+			
+			//set pattern for name
+			var NameReg = /^[a-zA-Z]{3,10}$/;
+			//set pattern for TNo
+			var TNoReg = /^[1-9][A-Z]-[A-Z][0,2,4,6,8]{4}-(1[0-2]|[2-9])$/;
+			
+			//check part
+			var all_valid = true;
+			//check Fname
+			if(Fname == ""){
+				FnameField.innerHTML = "<warning>This field is required!</warning>";
+				all_valid = false;
+			} else if(!Fname.match(NameReg)){
+				FnameField.innerHTML = "<warning>This field is not valid!</warning>";
+				all_valid = false;
+			} else {
+				FnameField.innerHTML = "";
+			}
+			
+			//check Lname
+			if(Lname == ""){
+				LnameField.innerHTML = "<warning>This field is required!</warning>";
+				all_valid = false;
+			} else if(!Lname.match(NameReg)){
+				LnameField.innerHTML = "<warning>This field is not valid!</warning>";
+				all_valid = false;
+			} else {
+				LnameField.innerHTML = "";
+			}
+			
+			//check TNo, format:ab-cdefg-h
+			if(TNo == ""){
+				TNoField.innerHTML = "<warning>This field is required!</warning>";
+				all_valid = false;				
+			} else if(!TNo.match(TNoReg)){
+				TNoField.innerHTML = "<warning>This field is not valid!</warning>";
+				all_valid = false;
+			} else {
+				TNoField.innerHTML = "";
+			}
+			
+			if(all_valid){
+				show_info.innerHTML = Fname + " " + Lname + "(" + TNo + "), ";
+				show_info.innerHTML += "we will inform you as soon as possible.<br/>";
+			} else {
+				show_info.innerHTML = "";
+			}
+		}
+	</script>
+</head>
+<body>
+	<form name="FormA" method="post" action="">
+		<p>
+			<label>First name:</label>
+			<input type="text" name="Fname"/>
+			<span id="FnameField"/>
+		</p>
+		
+		<p>
+			<label>Last name:</label>
+			<input type="text" name="Lname"/>
+			<span id="LnameField"/>
+		</p>
+		
+		<p>
+			<label>Tracking number:</label>
+			<input type="text" name="TNo"/>
+			<span id="TNoField"/>
+		</p>
+		
+		<input type="button" value="checking" onclick="check()"/>
+	</form>
+	
+	<p id="info"/>
+	
+</body>
+</html>

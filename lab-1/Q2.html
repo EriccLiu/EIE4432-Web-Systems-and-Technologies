@@ -1,0 +1,67 @@
+<html>
+<head>
+	<title>Guessing game</title>
+	<style type="text/css">
+		smallNo{
+			color:blue;
+		}
+		bigNo{
+			color:red;
+		}
+	</style>
+	<script type="text/javascript">
+
+		function noGen()
+		{
+			i = 10;
+			
+			//rand = parseInt(Math.random()*1000);
+			rand = parseInt(Math.random()*900)+100;
+			
+			//document.getElementById("beginn").innerHTML = "<p>"+rand+"</p>";
+		}
+		function attempt()
+		{
+			var guess = parseInt(document.getElementById("tryno").value);
+			var info = document.getElementById("info");
+			var myguess = document.getElementById("myguess");
+			var regexp = /^[1-9]\d{2}$/;
+			
+			if( String(guess).match(regexp) && i > 0){
+				if(guess == rand){
+					info.innerHTML = "<p>you win</p>";
+					i = 0;
+				} else {
+					i--;
+					if(guess < rand){
+						myguess.innerHTML += "<p>attemp: " + (10 - i) + " your guess " + guess + " is <smallNo>too small</smallNo></p>";
+					}
+					else {
+						myguess.innerHTML += "<p>attemp: " + (10 - i) + " your guess " + guess + " is <bigNo>too big</bigNo></p>";
+					} 
+					
+					if(i <= 0){
+						info.innerHTML = "<p>You lost! The correct no is "+ rand +"</p>";
+					}
+				}
+			}
+			document.getElementById("tryno").value = '';
+
+		}
+	</script>
+</head>
+<body onload="noGen()">
+	<h1>Guessing game</h1>
+	<p>You have 10 chances!</p>
+	<p id="beginn"></p>
+	<p >Hint: the number is between 100 and 999</p>
+	<p id="myguess"></p>
+	
+	<p>
+		<input id="tryno" type="text" PlaceHolder="input your guess"/>
+		<input type="button" value="GUESS" onclick="attempt()"/>
+	</p>
+	
+	<p id="info"></p>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lab5 - TaskB2</title>
+	<style type="text/css">
+		.head{
+			font-family:Times;
+		}
+		.field{
+			border-radius:8px;
+		}
+		.legendLine{
+			font-family:Times;
+			font-size:18px;
+			color:blue;
+		}
+		.submitButton{
+			//border:1px solid;
+			//border-radius:3px;
+			font-size:15px;
+			width:280px;
+		}
+		.officialLanguage{
+			color:green;
+		}
+		.changeStyle{
+			width:150px;
+			height:35px;
+			border-radius:5px;
+			font-size:17px;
+		    text-align: center;
+			color:#008CBA;
+			background:white;
+			border: 2px solid #008CBA;
+			transition-duration: 0.4s;
+		}
+		.changeStyle:hover{
+			color:white;
+			background:#008CBA;
+			border: 2px solid #008CBA;
+		}
+	</style>
+	<script type="text/javascript">
+	
+		function check(f){
+			if(fs == ""){
+				return false;
+			}
+			return true;
+		}
+		
+		function queryCountries(){
+		
+			continent = document.getElementById("TaskB2").Continent.value;
+			document.getElementById("resultset").innerHTML = "<h2>"+continent+"</h2>";
+
+			if(!continent){
+				return false;
+			}
+
+			//USE AJAX, SET VARIABLE XMLHTTP
+			xmlHTTP = null;
+			var url = "TaskB2.php?Continent="+continent;
+
+			//create a new xmlHTTP object
+			if(window.XMLHttpRequest){
+				xmlHTTP = new XMLHttpRequest();
+			} else if(window.ActiveXObject){
+				xmlHTTP = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			
+			//if create successfully, then send request
+			if(xmlHTTP == null){
+				alert("Your browser does not support XML.");
+			} else{
+				xmlHTTP.onreadystatechange = stateChange;
+				xmlHTTP.open("GET", url, true);
+				xmlHTTP.send(null);
+			}
+		}
+		
+		//method : innerHTML
+		function stateChange(){
+			if( (xmlHTTP.readyState == 4) && (xmlHTTP.status == 200) ){
+				document.getElementById("resultset").innerHTML = xmlHTTP.responseText;
+			}
+		}
+		
+		//change the style of offical language
+		function changeStyle(){
+			if(document.getElementById("countryList").getAttribute("value") == "0"){
+				document.getElementById("countryList").setAttribute("value","1");
+				var list = document.getElementById("countryList").childNodes;
+				
+				for( i = 0 ; i < list.length ; i++ ){
+					var str = list[i].childNodes[1].childNodes;
+					for( j = 0 ; j < str.length ; j++ ){
+						if(str[j].innerHTML.split(",")[1] == " T"){
+							str[j].setAttribute("class","officialLanguage");
+							str[j].innerHTML = str[j].innerHTML.split(",")[0];
+						} else{
+							str[j].innerHTML = str[j].innerHTML.split(",")[0];
+						}
+					}
+				}
+			} else{
+				document.getElementById("countryList").setAttribute("value","0");
+				var list = document.getElementById("countryList").childNodes;
+				
+				for( i = 0 ; i < list.length ; i++ ){
+					var str = list[i].childNodes[1].childNodes;
+					
+					for( j = 0 ; j < str.length ; j++ ){
+						if(str[j].getAttribute("class") == "officialLanguage"){
+							str[j].setAttribute("class",null);
+							str[j].innerHTML = str[j].innerHTML + ", T";
+						} else{
+							str[j].innerHTML = str[j].innerHTML + ", F";
+						}
+
+					}
+				}
+			}
+		}
+	</script>
+</head>
+<body id="mainbody">
+	<hr/>
+	<h1 class="head">Select a list of countries by continent</h1>
+	<p>Select one from the list of continents below and press "View countries from this continent" 
+	to see a list of countries in that continent.</p>
+	<form id="TaskB2" name="TaskB2" action="TaskB2.php" method="GET">
+		<fieldset class="field">
+			<legend class="legendLine">Select continent</legend>
+			<input type="radio" name="Continent" value="Africa" checked="true"><label>Africa</label>
+			<input type="radio" name="Continent" value="Antarctica"><label>Antarctica</label>
+			<input type="radio" name="Continent" value="Asia"><label>Asia</label>
+			<input type="radio" name="Continent" value="Europe"><label>Europe</label>
+			<input type="radio" name="Continent" value="North America"><label>North America</label>
+			<input type="radio" name="Continent" value="Oceania"><label>Oceania</label>
+			<input type="radio" name="Continent" value="South America"><label>South America</label>
+			<br/>
+			<input type="button" name="button" class="submitButton" value="View countries in this continent" onclick="queryCountries()"/>
+		</fieldset>
+	</form>
+	<span id="resultset"></span>
+</body>
+</html>
