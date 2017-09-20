@@ -1,0 +1,150 @@
+drop database if exists examtimetable1;
+
+create database examtimetable1;
+
+use examtimetable1;
+
+create table `programme` (
+   `ProgramID` char(5) NOT NULL,
+   `ProgName` varchar(100),
+   `CreditGrad` int(11),
+   PRIMARY KEY (`ProgramID`)
+);
+
+INSERT INTO `Programme` VALUES ('42070','BEng (Hons) Electronic & Information Engineering',108);
+INSERT INTO `Programme` VALUES ('42074','BEng (Hons) Electronic & Information Engineering (part time)',51);
+INSERT INTO `Programme` VALUES ('42075','HD Electronic & Information Engineering',63);
+INSERT INTO `Programme` VALUES ('42076','HD Multimedia & Multilingual Computing',72);
+INSERT INTO `Programme` VALUES ('42077','BSc (Hons) Internet & Multimedia Technology',104);
+
+create table `Venue` (
+   `VenueID` varchar(10) NOT NULL,
+   `Description` varchar(70),
+   PRIMARY KEY (`VenueID`)
+);
+
+INSERT INTO `VENUE` VALUES ('FSCH','Fong Shu Chuen Hall');
+INSERT INTO `VENUE` VALUES ('GYMI','Gymnasium at Shaw Sports Complex');
+INSERT INTO `VENUE` VALUES ('GYMII','Kwong On Jubilee Sports Centre (Communal Building)');
+INSERT INTO `VENUE` VALUES ('MROOM','Rooms N112 to N116 on the Lower Podium');
+INSERT INTO `VENUE` VALUES ('PG','Practice Gymnasium at Shaw Sports Complex');
+INSERT INTO `VENUE` VALUES ('TTR','Table-Tennis Room (Shaw Sports Complex)');
+
+create table `ExamDetails` (
+   `ExamID` int(11) NOT NULL,
+   `EDate` date,
+   `VenueID` varchar(10),
+   `StartTime` time,
+   `duration` float(4,2),
+   PRIMARY KEY (`ExamID`),
+   CONSTRAINT `examdetails_ibfk_1` FOREIGN KEY (`VenueID`) REFERENCES `Venue` (`VenueID`)
+);
+
+INSERT INTO `ExamDetails` VALUES (1,'2014-12-11','FSCH','18:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (2,'2014-12-11','MROOM','09:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (3,'2014-12-12','PG','18:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (4,'2014-12-12','FSCH','18:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (5,'2014-12-13','GYMI','09:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (6,'2014-12-13','GYMI','14:00:00',2.50);
+INSERT INTO `ExamDetails` VALUES (7,'2014-12-13','MROOM','09:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (8,'2014-12-15','GYMII','09:30:00',3.00);
+INSERT INTO `ExamDetails` VALUES (9,'2014-12-15','TTR','09:30:00',3.00);
+INSERT INTO `ExamDetails` VALUES (10,'2014-12-16','FSCH','18:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (11,'2014-12-17','GYMI','14:00:00',2.50);
+INSERT INTO `ExamDetails` VALUES (12,'2014-12-17','TTR','18:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (13,'2014-12-20','GYMII','09:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (14,'2014-12-22','FSCH','14:00:00',2.50);
+INSERT INTO `ExamDetails` VALUES (15,'2014-12-29','MROOM','18:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (16,'2014-12-23','FSCH','09:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (17,'2014-12-27','PG','09:30:00',2.50);
+INSERT INTO `ExamDetails` VALUES (18,'2014-12-22','GYMI','09:30:00',2.50);
+
+create table `Subject` (
+   `SubCode` varchar(10) NOT NULL,
+   `SubTitle` varchar(70) NOT NULL,
+   `ExamID` int(11),
+   PRIMARY KEY (`SubCode`),
+   CONSTRAINT `subject_ibfk_1` FOREIGN KEY (`ExamID`) REFERENCES `ExamDetails` (`ExamID`)
+);
+
+INSERT INTO `Subject` VALUES ('AF3901','Econmics for engineer',3);
+INSERT INTO `Subject` VALUES ('AMA201','Mathematics I',1);
+INSERT INTO `Subject` VALUES ('AMA203','Mathematics IA',8);
+INSERT INTO `Subject` VALUES ('EIE200','Society & the Engineer',4);
+INSERT INTO `Subject` VALUES ('EIE224','Introduction to Internet and Multimedia Technologies',16);
+INSERT INTO `Subject` VALUES ('EIE251','Electronic circuits I',11);
+INSERT INTO `Subject` VALUES ('EIE261','Logic design',14);
+INSERT INTO `Subject` VALUES ('EIE273','Computer Architecture and operating systems',9);
+INSERT INTO `Subject` VALUES ('EIE276','Multimedia technology I',7);
+INSERT INTO `Subject` VALUES ('EIE279','Fundamentals of data communications and networks',14);
+INSERT INTO `Subject` VALUES ('EIE303','Electronic Circuits II',5);
+INSERT INTO `Subject` VALUES ('EIE311','Computer System Fundamentals',6);
+INSERT INTO `Subject` VALUES ('EIE312','Linear Systems',13);
+INSERT INTO `Subject` VALUES ('EIE324','Multimedia Technologies',17);
+INSERT INTO `Subject` VALUES ('EIE327','Signal Processing Fundamentals',5);
+INSERT INTO `Subject` VALUES ('EIE355','Advanced Topics in Networking',2);
+INSERT INTO `Subject` VALUES ('EIE361','Computer System Fundamentals',2);
+INSERT INTO `Subject` VALUES ('EIE362','Linear Systems',7);
+INSERT INTO `Subject` VALUES ('EIE381','Communication Fundmentals',9);
+INSERT INTO `Subject` VALUES ('EIE403','High frequency circuit design',10);
+INSERT INTO `Subject` VALUES ('EIE414','Computer architecture and systems',10);
+INSERT INTO `Subject` VALUES ('EIE421','Speech and Image processing',13);
+INSERT INTO `Subject` VALUES ('EIE423','Internet and its Management',6);
+INSERT INTO `Subject` VALUES ('EIE442','Data and computer communications',18);
+INSERT INTO `Subject` VALUES ('EIE446','Digital communications',15);
+INSERT INTO `Subject` VALUES ('EIE507','Network design - theory and practice',12);
+INSERT INTO `Subject` VALUES ('EIE517','Advanced data communications',4);
+INSERT INTO `Subject` VALUES ('EIE545','Consumer electronics',15);
+
+create table `ProgSubj` (
+   `refNo` int(10),
+   `ProgramID` char(5),
+   `SubCode` varchar(10),
+   `NoStudents` int(11),
+   PRIMARY KEY (`refNo`),
+   CONSTRAINT `ProgSubj_ibfk_1` FOREIGN KEY (`ProgramID`) REFERENCES `Programme` (`ProgramID`),
+   CONSTRAINT `ProgSubj_ibfk_2` FOREIGN KEY (`SubCode`) REFERENCES `Subject` (`SubCode`)
+);
+
+INSERT INTO `ProgSubj` VALUES(1,'42070','AF3901',62);
+INSERT INTO `ProgSubj` VALUES(2,'42070','AMA201',64);
+INSERT INTO `ProgSubj` VALUES(3,'42070','EIE200',42);
+INSERT INTO `ProgSubj` VALUES(4,'42070','EIE303',62);
+INSERT INTO `ProgSubj` VALUES(5,'42070','EIE312',67);
+INSERT INTO `ProgSubj` VALUES(6,'42070','EIE403',42);
+INSERT INTO `ProgSubj` VALUES(7,'42070','EIE414',28);
+INSERT INTO `ProgSubj` VALUES(8,'42070','EIE421',44);
+INSERT INTO `ProgSubj` VALUES(9,'42070','EIE423',22);
+INSERT INTO `ProgSubj` VALUES(10,'42070','EIE446',32);
+INSERT INTO `ProgSubj` VALUES(11,'42070','EIE507',10);
+INSERT INTO `ProgSubj` VALUES(12,'42070','EIE517',7);
+INSERT INTO `ProgSubj` VALUES(13,'42070','EIE545',4);
+INSERT INTO `ProgSubj` VALUES(14,'42074','AF3901',47);
+INSERT INTO `ProgSubj` VALUES(15,'42074','AMA201',46);
+INSERT INTO `ProgSubj` VALUES(16,'42074','EIE200',42);
+INSERT INTO `ProgSubj` VALUES(17,'42074','EIE403',64);
+INSERT INTO `ProgSubj` VALUES(18,'42074','EIE414',53);
+INSERT INTO `ProgSubj` VALUES(19,'42074','EIE446',14);
+INSERT INTO `ProgSubj` VALUES(20,'42074','EIE507',10);
+INSERT INTO `ProgSubj` VALUES(21,'42074','EIE517',7);
+INSERT INTO `ProgSubj` VALUES(22,'42074','EIE545',3);
+INSERT INTO `ProgSubj` VALUES(23,'42075','AMA203',120);
+INSERT INTO `ProgSubj` VALUES(24,'42075','EIE251',121);
+INSERT INTO `ProgSubj` VALUES(25,'42075','EIE261',121);
+INSERT INTO `ProgSubj` VALUES(26,'42075','EIE361',50);
+INSERT INTO `ProgSubj` VALUES(27,'42075','EIE362',50);
+INSERT INTO `ProgSubj` VALUES(28,'42075','EIE381',50);
+INSERT INTO `ProgSubj` VALUES(29,'42076','AMA203',54);
+INSERT INTO `ProgSubj` VALUES(30,'42076','EIE273',55);
+INSERT INTO `ProgSubj` VALUES(31,'42076','EIE276',54);
+INSERT INTO `ProgSubj` VALUES(32,'42076','EIE279',54);
+INSERT INTO `ProgSubj` VALUES(33,'42076','EIE355',32);
+INSERT INTO `ProgSubj` VALUES(34,'42077','AF3901',34);
+INSERT INTO `ProgSubj` VALUES(35,'42077','AMA201',54);
+INSERT INTO `ProgSubj` VALUES(36,'42077','EIE224',47);
+INSERT INTO `ProgSubj` VALUES(37,'42077','EIE311',46);
+INSERT INTO `ProgSubj` VALUES(38,'42077','EIE324',44);
+INSERT INTO `ProgSubj` VALUES(39,'42077','EIE327',51);
+INSERT INTO `ProgSubj` VALUES(40,'42077','EIE421',10);
+INSERT INTO `ProgSubj` VALUES(41,'42077','EIE423',28);
+INSERT INTO `ProgSubj` VALUES(42,'42077','EIE442',52);
